@@ -270,7 +270,9 @@ def uploader_fn(exit_event):
     allow_cellular = (params.get("IsUploadVideoOverCellularEnabled") != "0")
     on_hotspot = is_on_hotspot()
     on_wifi = is_on_wifi()
+    on_geofence = (params.get("IsGeofenceEnabled") != "0")
     should_upload = allow_cellular or (on_wifi and not on_hotspot)
+    should_upload = should_upload and on_geofence # hijack geofence switch to toggle upload
 
     if exit_event.is_set():
       return
